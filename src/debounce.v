@@ -11,12 +11,16 @@ module debounce (
     always @(posedge clk) begin
         if(reset) begin
             counter <= 0;
-        end if(button) begin
-            counter <= counter + 1'b1;
-        end else begin
-            counter <= counter - 1'b1;
-        if counter = 1'b11111111 or counter = 1'b00000000 begin
-            assign debounced = counter;
-        end
+	    debounced <= 1'b0;
+	end else
+            if(button) begin
+                counter <= {counter[6:0],1'b1};
+            end else begin
+                counter <= {counter[6:0],1'b0};
+	    end
+            if counter == 8'b11111111 begin
+                debounced <= 1'b1;
+            end
+	end
     end
 endmodule
