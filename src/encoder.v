@@ -1,11 +1,14 @@
 `default_nettype none
 `timescale 1ns/1ns
-module encoder (
+module encoder #(
+    parameter OUT_WIDTH = 8,
+    parameter INCREMENT = 1'b1
+)(
     input clk,
     input reset,
     input a,
     input b,
-    output reg [7:0] value
+    output reg [OUT_WIDTH-1:0] value
 );
 
     // make equivalent of binary value full of "ones" (i.e. 8'b11111111)
@@ -16,7 +19,7 @@ module encoder (
 
     always @(posedge clk) begin
         if( reset ) begin
-            value <= {8{1'b0}};
+            value <= {OUT_WIDTH{1'b0}};
             rotary <= 4'b0000;
             rotary_history <= 4'b0000;
         end else begin
@@ -39,9 +42,9 @@ module encoder (
                 rotary <= {rotary[3:2], b, rotary[1:1]};
             if ( rotary != rotary_history )
                 if ( rotary == 4'b1000 | rotary == 4'b0111 )
-                    value <= value + 1'b1;
+                    value <= value + INCREMENT;
                 else if ( rotary == 4'b0010 | rotary == 4'b1101 )
-                    value <= value - 1'b1;
+                    value <= value - INCREMENT;
                 rotary_history <= rotary;
         end
     end
