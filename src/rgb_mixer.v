@@ -29,16 +29,17 @@ module rgb_mixer (
             clk_slow <= 0;
         end else begin
             counter <= counter + 1'b1;
-            if(counter[7:7] == 1'b1)
-                clk_slow <= ~clk_slow;
+            // using to bit will provide roughly even amounts of time
+            // on and off, other examples use "divisor"/2
+            clk_slow <= counter[7:7] ? 1'b1 : 1'b0;
         end
     end
 
-    debounce #(.COUNTER_WIDTH(8)) debounce0_a(.clk(clk), .reset(reset_N), .button(enc0_a), .debounced(enc0_a_db));
-    debounce #(.COUNTER_WIDTH(8)) debounce0_b(.clk(clk), .reset(reset_N), .button(enc0_b), .debounced(enc0_b_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce0_a(.clk(clk), .reset(reset_N), .button(enc2_a), .debounced(enc0_a_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce0_b(.clk(clk), .reset(reset_N), .button(enc2_b), .debounced(enc0_b_db));
 
-    debounce #(.COUNTER_WIDTH(8)) debounce1_a(.clk(clk), .reset(reset_N), .button(enc1_a), .debounced(enc1_a_db));
-    debounce #(.COUNTER_WIDTH(8)) debounce1_b(.clk(clk), .reset(reset_N), .button(enc1_b), .debounced(enc1_b_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce1_a(.clk(clk), .reset(reset_N), .button(enc2_a), .debounced(enc1_a_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce1_b(.clk(clk), .reset(reset_N), .button(enc2_b), .debounced(enc1_b_db));
 
     debounce #(.COUNTER_WIDTH(8)) debounce2_a(.clk(clk_slow), .reset(reset_N), .button(enc2_a), .debounced(enc2_a_db));
     debounce #(.COUNTER_WIDTH(8)) debounce2_b(.clk(clk_slow), .reset(reset_N), .button(enc2_b), .debounced(enc2_b_db));
