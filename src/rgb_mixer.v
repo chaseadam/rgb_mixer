@@ -35,19 +35,19 @@ module rgb_mixer (
         end
     end
 
-    debounce #(.COUNTER_WIDTH(8)) debounce0_a(.clk(clk), .reset(reset_N), .button(enc2_a), .debounced(enc0_a_db));
-    debounce #(.COUNTER_WIDTH(8)) debounce0_b(.clk(clk), .reset(reset_N), .button(enc2_b), .debounced(enc0_b_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce0_a(.clk(clk_slow), .reset(reset_N), .button(enc2_a), .debounced(enc0_a_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce0_b(.clk(clk_slow), .reset(reset_N), .button(enc2_b), .debounced(enc0_b_db));
 
-    debounce #(.COUNTER_WIDTH(8)) debounce1_a(.clk(clk), .reset(reset_N), .button(enc2_a), .debounced(enc1_a_db));
-    debounce #(.COUNTER_WIDTH(8)) debounce1_b(.clk(clk), .reset(reset_N), .button(enc2_b), .debounced(enc1_b_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce1_a(.clk(clk_slow), .reset(reset_N), .button(enc2_a), .debounced(enc1_a_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce1_b(.clk(clk_slow), .reset(reset_N), .button(enc2_b), .debounced(enc1_b_db));
 
-    debounce #(.COUNTER_WIDTH(8)) debounce2_a(.clk(clk), .reset(reset_N), .button(enc2_a), .debounced(enc2_a_db));
-    debounce #(.COUNTER_WIDTH(8)) debounce2_b(.clk(clk), .reset(reset_N), .button(enc2_b), .debounced(enc2_b_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce2_a(.clk(clk_slow), .reset(reset_N), .button(enc2_a), .debounced(enc2_a_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce2_b(.clk(clk_slow), .reset(reset_N), .button(enc2_b), .debounced(enc2_b_db));
 
     //encoders
-    encoder encoder0(.clk(clk), .reset(reset_N), .a(enc0_a_db), .b(enc0_b_db), .value(enc0));
-    encoder encoder1(.clk(clk), .reset(reset_N), .a(enc1_a_db), .b(enc1_b_db), .value(enc1));
-    encoder encoder2(.clk(clk), .reset(reset_N), .a(enc2_a_db), .b(enc2_b_db), .value(enc2));
+    encoder encoder0(.clk(clk_slow), .reset(reset_N), .a(enc0_a_db), .b(enc0_b_db), .value(enc0));
+    encoder encoder1(.clk(clk_slow), .reset(reset_N), .a(enc1_a_db), .b(enc1_b_db), .value(enc1));
+    encoder encoder2(.clk(clk_slow), .reset(reset_N), .a(enc2_a_db), .b(enc2_b_db), .value(enc2));
 
     //pwm
     pwm pwm0(.clk(clk_slow), .reset(reset_N), .out(pwm0_out), .level(enc0));
