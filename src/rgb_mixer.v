@@ -21,7 +21,7 @@ module rgb_mixer (
 
     wire reset_N = ~reset;
     reg clk_slow;
-    reg [7:0] counter;
+    reg [5:0] counter;
 
     always @(posedge clk) begin
         if(reset_N) begin
@@ -31,7 +31,7 @@ module rgb_mixer (
             counter <= counter + 1'b1;
             // using to bit will provide roughly even amounts of time
             // on and off, other examples use "divisor"/2
-            clk_slow <= counter[7:7] ? 1'b1 : 1'b0;
+            clk_slow <= counter[5] ? 1'b1 : 1'b0;
         end
     end
 
@@ -41,8 +41,8 @@ module rgb_mixer (
     debounce #(.COUNTER_WIDTH(8)) debounce1_a(.clk(clk), .reset(reset_N), .button(enc2_a), .debounced(enc1_a_db));
     debounce #(.COUNTER_WIDTH(8)) debounce1_b(.clk(clk), .reset(reset_N), .button(enc2_b), .debounced(enc1_b_db));
 
-    debounce #(.COUNTER_WIDTH(8)) debounce2_a(.clk(clk_slow), .reset(reset_N), .button(enc2_a), .debounced(enc2_a_db));
-    debounce #(.COUNTER_WIDTH(8)) debounce2_b(.clk(clk_slow), .reset(reset_N), .button(enc2_b), .debounced(enc2_b_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce2_a(.clk(clk), .reset(reset_N), .button(enc2_a), .debounced(enc2_a_db));
+    debounce #(.COUNTER_WIDTH(8)) debounce2_b(.clk(clk), .reset(reset_N), .button(enc2_b), .debounced(enc2_b_db));
 
     //encoders
     encoder encoder0(.clk(clk), .reset(reset_N), .a(enc0_a_db), .b(enc0_b_db), .value(enc0));
