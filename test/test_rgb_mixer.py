@@ -13,10 +13,10 @@ async def reset(dut):
     dut.enc1_b <= 0
     dut.enc2_a <= 0
     dut.enc2_b <= 0
-    dut.reset  <= 1
+    dut.reset  <= 0
 
     await ClockCycles(dut.clk, 5)
-    dut.reset <= 0;
+    dut.reset <= 1;
     await ClockCycles(dut.clk, 5) # how long to wait for the debouncers to clear
 
 async def run_encoder_test(encoder, dut_enc, max_count):
